@@ -1,0 +1,47 @@
+server:
+  address: ${SERVER_ADDRESS:127.0.0.1}
+  port: ${PORT:8080}
+
+spring:
+  application:
+    name: coala-java-framework
+  ai:
+    # Keep Spring AI's provider auto-configuration disabled for the offline default.
+    # application-openai.yml enables the OpenAI chat provider.
+    model:
+      chat: none
+  jackson:
+    default-property-inclusion: non_null
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+coala:
+  llm:
+    provider: scripted
+  run:
+    max-cycles: 8
+    max-reasoning-calls: 50
+  planning:
+    max-candidates: 6
+    max-proposal-attempts: 3
+  memory:
+    max-sessions: 1000
+    max-records-per-session: 32
+    idle-ttl: PT30M
+  api:
+    token: ${COALA_API_TOKEN:}
+    rate-limit:
+      requests-per-minute: 30
+    max-request-bytes: 32768
+
+logging:
+  level:
+    dev.coala: INFO
