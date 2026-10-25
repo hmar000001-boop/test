@@ -1,0 +1,18 @@
+coala:
+  llm:
+    provider: openai
+
+spring:
+  ai:
+    model:
+      chat: openai
+    retry:
+      # Explicitly bounded; provider-specific retries are limited below.
+      max-attempts: 1
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      timeout: 30s
+      max-retries: 1
+      chat:
+        model: ${OPENAI_MODEL:gpt-4.1-mini}
+        temperature: 0.1

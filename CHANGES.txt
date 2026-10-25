@@ -1,0 +1,29 @@
+CoALA Java Framework — changes-only patch
+
+Apply
+-----
+Extract this ZIP into the existing project root and allow files to overwrite the files at the same paths. The archive intentionally contains only changed files, not a full project copy.
+
+Changes included
+----------------
+- Fixes the servlet HTTP 429 constant and Jackson 3 JsonNode iteration API.
+- Adds regression coverage for JSON action arguments.
+- Disables unused Spring AI model auto-configurations in the default scripted/offline profile so app-context tests do not require OpenAI credentials.
+- Improves credential redaction for key=value assignments, including quoted values.
+- Makes decision-procedure assertions case-insensitive and changes the session-isolation test to inspect stored records rather than fuzzy retrieval.
+- Clarifies the Windows/Linux Java 21 CI matrix and explains why both operating systems run verification in README.
+
+Removed stale placeholder
+-------------------------
+Delete this obsolete non-source file if it exists:
+  src/main/java/dev/coala-java-framework-updated.tmp
+
+Verification note
+-----------------
+The uploaded Linux Surefire report recorded 90 tests, 15 errors, 4 assertion failures, and 0 skipped tests. These changes address the identified causes, but Maven could not be run in this workspace; a passing full build has not been independently verified here.
+
+Run on Linux:
+  ./mvnw -B --no-transfer-progress clean verify
+
+Run on Windows PowerShell:
+  .\mvnw.cmd -B --no-transfer-progress clean verify
