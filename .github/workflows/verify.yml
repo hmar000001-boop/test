@@ -1,0 +1,35 @@
+name: verify
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  maven-verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - name: Run tests and package (Unix)
+        if: runner.os != 'Windows'
+        run: ./mvnw -B clean verify
+      - name: Run tests and package (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: .\mvnw.cmd -B clean verify
+      - name: Upload Maven test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: maven-test-reports-${{ matrix.os }}
+          path: "**/target/surefire-reports/*"
+          if-no-files-found: warn
+          retention-days: 7
